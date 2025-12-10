@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inasal Order Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff7f6;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #d9534f;
+    }
+    label { font-weight: bold; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    th, td {
+      border: 1px solid #eee;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f8d7da;
+      color: #a94442;
+    }
+    button {
+      background: #d9534f;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #c9302c; }
+    #responseMsg { margin-top: 15px; font-weight: bold; }
+    .header-img {
+      display: block;
+      margin: 0 auto 15px auto;
+      border-radius: 12px;
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Image at the top -->
+    <img src="Inasal.jpg" alt="Inasal Banner" class="header-img">
+    
+    <h1>Inasal Order Form</h1>
+
+    <!-- Customer Info -->
+    <form id="orderForm">
+      <label>Name:</label>
+      <input type="text" id="name" required>
+
+      <label>Phone:</label>
+      <input type="tel" id="phone" required>
+
+      <label>Email:</label>
+      <input type="email" id="email">
+
+      <label>Address (for delivery):</label>
+      <textarea id="address"></textarea>
+
+      <label>Order Method:</label>
+      <select id="method">
+        <option value="pickup">Pickup</option>
+        <option value="delivery">Delivery</option>
+      </select>
+
+      <label>Payment Method:</label>
+      <select id="payment">
+        <option value="cod">Cash on Delivery</option>
+        <option value="gcash">GCash</option>
+        <option value="card">Card</option>
+      </select>
+
+      <h3>🍗 Menu</h3>
+      <table>
+        <tr><th>Item</th><th>Price</th><th>Qty</th></tr>
+        <tr>
+          <td>Chicken Inasal (Paa)</td>
+          <td>₱120</td>
+          <td><input type="number" id="item1" value="0" min="0"></td>
+        </tr>
+        <tr>
+          <td>Chicken Inasal (Pecho)</td>
+          <td>₱140</td>
+          <td><input type="number" id="item2" value="0" min="0"></td>
+        </tr>
+        <tr>
+          <td>Pork BBQ</td>
+          <td>₱35</td>
+          <td><input type="number" id="item3" value="0" min="0"></td>
+        </tr>
+        <tr>
+          <td>Garlic Rice</td>
+          <td>₱25</td>
+          <td><input type="number" id="item4" value="0" min="0"></td>
+        </tr>
+        <tr>
+          <td>Soft Drinks</td>
+          <td>₱20</td>
+          <td><input type="number" id="item5" value="0" min="0"></td>
+        </tr>
+      </table>
+
+      <label>Subtotal:</label>
+      <input type="text" id="subtotal" readonly>
+
+      <label>Delivery Fee:</label>
+      <input type="text" id="deliveryFee" readonly>
+
+      <label>Total:</label>
+      <input type="text" id="total" readonly>
+
+      <button type="submit">Submit Order</button>
+    </form>
+
+    <p id="responseMsg"></p>
+  </div>
+
+  <script>
+    const scriptURL = "YOUR_SCRIPT_URL_HERE";
+
+    const prices = {
+      item1: 120,
+      item2: 140,
+      item3: 35,
+      item4: 25,
+      item5: 20
+    };
+
+    document.querySelectorAll("input[type='number']").forEach(input => {
+      input.addEventListener('input', calculateTotal);
+    });
+    document.getElementById('method').addEventListener('change', calculateTotal);
+
+    function calculateTotal() {
+      let subtotal = 0;
+      for (let id in prices) {
+        const qty = parseInt(document.getElementById(id).value) || 0;
+        subtotal += qty * prices[id];
+      }
+      const method = document.getElementById('method').value;
+      const deliveryFee = method === "delivery" ? 50 : 0;
+      const total = subtotal + deliveryFee;
+
+      document.getElementById('subtotal').value = "₱" + subtotal.toFixed(2);
+      document.getElementById('deliveryFee').value = "₱" + deliveryFee.toFixed(2);
+      document.getElementById('total').value = "₱" + total.toFixed(2);
+    }
+
+    document.getElementById('orderForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const orderData = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        method: document.getElementById('method').value,
+        address: document.getElementById('address').value,
+        payment: document.getElementById('payment').value,
+        subtotal: document.getElementById('subtotal').value,
+        deliveryFee: document.getElementById('deliveryFee').value,
+        total: document.getElementById('total').value
+      };
+
+      try {
+        const res = await fetch(scriptURL, {
+          method: 'POST',
+          body: JSON.stringify(orderData)
+        });
+        const result = await res.json();
+        document.getElementById('responseMsg').style.color = "green";
+        document.getElementById('responseMsg').textContent = "✅ " + result.message;
+        document.getElementById('orderForm').reset();
+        calculateTotal();
+      } catch (err) {
+        document.getElementById('responseMsg').style.color = "red";
+        document.getElementById('responseMsg').textContent = "❌ Failed to send order.";
+      }
+    });
+
+    calculateTotal();
+  </script>
+</body>
+</html>
