@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Money Converter</title>
+
+<!-- Premium Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+
+    background: 
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url('CALCULATOR.jpg');
+    background-size: cover;
+    background-position: center;
+
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* PREMIUM GLASS CARD */
+.converter-box {
+    width: 380px;
+    padding: 40px 35px;
+    border-radius: 25px;
+
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow: 0 25px 55px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.25);
+
+    animation: fadeIn 1s ease;
+    text-align: center;
+    color: #fff;
+}
+
+/* Logo glow animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-shadow: 0 0 8px rgba(255,255,255,0.5);
+}
+
+/* Inputs */
+.input-group {
+    margin-bottom: 22px;
+    text-align: left;
+}
+
+label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #eee;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+
+    background: rgba(255,255,255,0.22);
+    color: white;
+    outline: none;
+
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.25);
+    transition: 0.2s ease;
+}
+
+input::placeholder {
+    color: #ddd;
+}
+
+/* Input hover effect */
+input:hover, select:hover {
+    background: rgba(255,255,255,0.30);
+}
+
+/* PREMIUM BUTTON */
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+
+    background: linear-gradient(135deg, #4f8df5, #6fc4ff);
+    border: none;
+    border-radius: 12px;
+
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+
+    box-shadow: 0 12px 25px rgba(79,141,245,0.4);
+    transition: 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 18px 30px rgba(79,141,245,0.6);
+}
+
+/* Result */
+.result {
+    margin-top: 25px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 6px rgba(255,255,255,0.5);
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="converter-box">
+    <h2>Money Converter</h2>
+
+    <div class="input-group">
+        <label>Enter amount:</label>
+        <input type="number" id="amount" placeholder="e.g. 100">
+    </div>
+
+    <div class="input-group">
+        <label>From:</label>
+        <select id="from">
+            <option value="USD">USD – US Dollar</option>
+            <option value="EUR">EUR – Euro</option>
+            <option value="GBP">GBP – British Pound</option>
+            <option value="PHP">PHP – Philippine Peso</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label>To:</label>
+        <select id="to">
+            <option value="PHP">PHP – Philippine Peso</option>
+            <option value="USD">USD – US Dollar</option>
+            <option value="EUR">EUR – Euro</option>
+            <option value="GBP">GBP – British Pound</option>
+        </select>
+    </div>
+
+    <button onclick="convert()">Convert</button>
+
+    <div class="result" id="result">Converted amount: —</div>
+</div>
+
+<script>
+const rates = {
+    USD: { EUR: 0.92, GBP: 0.78, PHP: 58.0, USD: 1 },
+    EUR: { USD: 1.09, GBP: 0.85, PHP: 63.0, EUR: 1 },
+    GBP: { USD: 1.28, EUR: 1.17, PHP: 73.0, GBP: 1 },
+    PHP: { USD: 0.017, EUR: 0.016, GBP: 0.014, PHP: 1 }
+};
+
+function convert() {
+    const amount = parseFloat(document.getElementById("amount").value);
+    const from = document.getElementById("from").value;
+    const to = document.getElementById("to").value;
+
+    if (!amount) {
+        document.getElementById("result").innerText = "Please enter a valid number.";
+        return;
+    }
+
+    const rate = rates[from][to];
+    const converted = (amount * rate).toFixed(2);
+
+    document.getElementById("result").innerText =
+        `Converted amount: ${converted} ${to}`;
+}
+</script>
+
+</body>
+</html>
