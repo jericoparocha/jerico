@@ -1,103 +1,437 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Portfolio</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    /* ===== NAVBAR ===== */
+    .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        padding: 15px 0;
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 40px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-links a {
+        color: white;
+        font-size: 18px;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .nav-links a:hover {
+        color: lightgray;
+    }
+
+    .nav-links a.active {
+        border-bottom: 3px solid white;
+        padding-bottom: 5px;
+    }
+
+    /* ===== HOME SECTION ===== */
+    .hero {
+        height: 100vh;
+        width: 100%;
+        background-image: url('BR.jpg'); 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1;
+    }
+
+    .profile-img {
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        border: 4px solid white;
+        object-fit: cover;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content {
+        text-align: center;
+        color: white;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content h1 {
+        font-size: 48px;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 5px black;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        background: #333;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about-section {
+        background-image: url('fam.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 60px 20px;
+        border-radius: 10px;
+    }
+
+    .about-card {
+        max-width: 900px;
+        margin: 0 auto;
+        background: rgba(0,0,0,0.65);
+        padding: 30px;
+        border-radius: 15px;
+        color: white;
+        text-align: justify;
+        line-height: 2.0;
+    }
+
+    .about-card h2 {
+        text-align: center;
+        color: white;
+        text-shadow: 2px 2px 5px black;
+        margin-bottom: 20px;
+    }
+
+    /* ===== PROJECTS SECTION ===== */
+    .projects {
+        background-image: url('BR.jpg'); 
+        background-size: cover;
+        background-position: center;
+        padding: 60px 20px;
+        border-radius: 10px;
+    }
+
+    .project-card img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .project-card {
+        margin-bottom: 20px;
+    }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact-bg {
+        background-image: url('BR.jpg'); 
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        padding: 80px 20px;
+        border-radius: 10px;
+    }
+
+    .contact-bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.55);
+        z-index: 1;
+    }
+
+    .contact-content {
+        position: relative;
+        z-index: 2;
+        max-width: 700px;
+        margin: 0 auto;
+        color: white;
+        text-align: center;
+    }
+
+    .contact-content h2 {
+        font-size: 36px;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 5px black;
+    }
+
+    .contact-content h3 {
+        font-size: 24px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        text-shadow: 1px 1px 3px black;
+    }
+
+    .contact-content p {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .contact-info {
+        display:flex; 
+        flex-wrap: wrap; 
+        justify-content: center; 
+        gap: 40px; 
+        margin-bottom: 40px;
+    }
+
+    .contact-info div {
+        flex: 1 1 200px;
+        max-width: 250px;
+    }
+
+    .contact-info a:hover {
+        color: #ffd700;
+    }
+
+    .contact-form input, 
+    .contact-form textarea {
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        font-size: 16px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .contact-form button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        background: #fff;
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100%;
+    }
+
+    .contact-form button:hover {
+        background: #ffd700;
+        color: #000;
+    }
+
+    iframe {
+        border: 0;
+        width: 100%;
+        height: 350px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        margin-top: 20px;
+    }
+
+    /* Hide sections by default */
+    #home, #about, #projects, #contact {
+        display: none;
+    }
+</style>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <header>
-        <nav class="navbar">
-            <h1 class="logo">My Portfolio</h1>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- HERO SECTION -->
-    <section id="home" class="hero">
-        <img src="saiyan.jpg" alt="Profile Picture" class="profile-img">
-        <div class="hero-content">
-            <h2>Hello, I'm <span class="highlight">JERICO C. PAROCHA</span></h2>
-            <p>I'm an IT student and aspiring web developer.</p>
-            <a href="#projects" class="btn">View My Work</a>
-        </div>
-    </section>
-
-    <!-- ABOUT SECTION -->
-    <section id="about" class="about">
-        <h2>About Me</h2>
-       <p style="text-align: justify;"> Hi! I’m <b>JERICO C. PAROCHA</b>, an <b>20-years-old IT student from PAG-ASA SAN JOSE, Occidental Mindoro</b>, currently studying at <b>OMSC–San Jose Campus</b>. I am passionate about creating websites, applications, and digital projects that make everyday life easier, more efficient, and more exciting. I enjoy transforming ideas into functional designs, exploring new technologies, and continuously improving my skills in web development and programming. As I grow in the IT field, I aim to build meaningful projects that solve real-world problems and inspire others through innovation and creativity. </p>
-    </section>
-
-    <!-- PROJECTS SECTION -->
-    <section id="projects" class="projects">
-        <h2>My Projects</h2>
-        <div class="project-list">
-
-            <!-- STORY PROJECT -->
-            <div class="project-card">
-                <img src="story.jpg" alt="Story Project">
-                <h3>Short Story Website</h3>
-                <p>A simple webpage that showcases my creative writing story.</p>
-                <a href="jerico.html" class="btn" target="_blank">View Story</a>
-            </div>
-
-            <!-- RECIPE PROJECT -->
-            <div class="project-card">
-                <img src="restaurant.jpg" alt="Recipe Project">
-                <h3>Recipe Website</h3>
-                <p>A simple recipe site showcasing Burger Steak Recipe with ingredients and instructions.</p>
-                <a href="jericopogi.html" class="btn">View Project</a>
-            </div>
-
-            <!-- ORDERED FORM PROJECT -->
-            <div class="project-card">
-                <img src="yellow.jpg" alt="inasal Project">
-                <h3>Ordered Form Website</h3>
-                <p>Website guides users to easily order form in  inasalS.</p>
-                <a href="ParochaJerico.html" class="btn">View Project</a>
-            </div>
-
-            <!-- FOURTH PROJECT EXAMPLE -->
-            <div class="project-card">
-                <img src="blue.webp" alt="convertion Project">
-                <h3>Convertion Website</h3>
-                <p>A project that improves portfolio design with modern UI/UX features.</p>
-                <a href="converter.html" class="btn">View Project</a>
-            </div>
-			
-			<!-- FIFTH PROJECT EXAMPLE -->
-		   <div class="project-card">
-                <img src="view.jpg" alt="convertion Project">
-                <h3>BICYCLE WEBSITE</h3>
-                <p> BIKE.</p>
-                <a href="CSS.html" class="btn">View Project</a>
-            </div>
-
-
-        </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="contact">
-        <h2>Contact Me</h2>
-        <p>If you want to reach out, message me here:</p>
-        <ul>
-		    <li> Contact no: <a href="09673843739">09673843739</a></li>
-            <li>Email: <a href="mailto:jericoparocha24@gmail.com">jericoparocha24@gmail@gmail.com</a></li>
-            <li>Facebook: <a href="https://facebook.com/" target="_blank">JERICO C. PAROCHA</a></li>
+<header>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="javascript:void(0)" onclick="showSection('home')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="showSection('about')">About</a></li>
+            <li><a href="javascript:void(0)" onclick="showSection('projects')">Projects</a></li>
+            <li><a href="javascript:void(0)" onclick="showSection('contact')">Contact</a></li>
         </ul>
-    </section>
+    </nav>
+</header>
 
-    <footer>
-        <p>&copy; 2025 JERICO PAROCGHA. All rights reserved.</p>
-    </footer>
+<!-- HOME -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>MY PORTFOLIO</h1>
+        <img src="profile.jpg" alt="Profile Picture" class="profile-img">
+        <p>Jerico C. Parocha</p>
+        <a href="javascript:void(0)" onclick="showSection('projects')" class="btn">View My Work</a>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+    <div class="about-card">
+        <h2>About Me</h2>
+        <p>
+My name is <b>Jerico C. Parocha</b>, born on <b>May 20, 2005</b>, in <b>San Jose City, Nueva Ecija</b>. I am a dedicated and goal-oriented student who believes in the power of hard work, discipline, and continuous self-improvement. Growing up, I learned that success is not achieved overnight—it is built through patience, persistence, and strong determination. These values inspire me to keep moving forward even when challenges arise.
+
+<br><br>
+
+As a student, I am eager to learn new things and develop skills that will help me shape a better future. I enjoy discovering new ideas, improving my abilities, and challenging myself to grow both academically and personally. I believe that education is one of the most powerful tools that can change a person’s life, and I am committed to making the most out of every learning opportunity given to me.
+
+<br><br>
+
+I also value good character as much as knowledge. I strive to be respectful, responsible, and humble in everything I do. I believe that having a kind heart, a positive mindset, and strong determination can take a person far in life. My experiences continue to shape who I am today and motivate me to become a better individual every day.
+
+<br><br>
+
+With clear goals and strong determination, I am working hard to achieve my dreams and create a future I can be proud of. I remain hopeful, focused, and ready to face every challenge that comes my way as I continue my journey toward success.
+        </p>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="projects">
+    <h2>My Projects</h2>
+    <div class="project-list">
+        <div class="project-card">
+            <img src="story.jpg" alt="Story Project">
+            <h3>Short Story Website</h3>
+            <p>A simple webpage that showcases my creative writing story.</p>
+            <a href="jerico.html" class="btn">View Story</a>
+        </div>
+        <div class="project-card">
+            <img src="restaurant.jpg" alt="Recipe Project">
+            <h3>Recipe Website</h3>
+            <p>A simple recipe site showcasing delicious pork adobo with ingredients and instructions.</p>
+            <a href="jericopogi.html" class="btn">View Project</a>
+        </div>
+        <div class="project-card">
+            <img src="yellow.jpg" alt="Paulpastil Project">
+            <h3>Ordered Form Website</h3>
+            <p>Website guides users to easily order Paulpastil online.</p>
+            <a href="ParochaJerico.html" class="btn">View Project</a>
+        </div>
+        <div class="project-card">
+            <img src="blue.WEBP" alt="Convertion Project">
+            <h3>Convertion Website</h3>
+            <p>A project that improves portfolio design with modern UI/UX features.</p>
+            <a href="converter.html" class="btn">View Project</a>
+        </div>
+        <div class="project-card">
+            <img src="view.jpg" alt="CSS">
+            <h3>Bicycle Website</h3>
+            <p>A project Bicycle.</p>
+            <a href="CSS.html" class="btn">View Project</a>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+    <div class="contact-bg">
+        <div class="contact-content">
+            <h2>Contact Me</h2>
+            <p>I'd love to hear from you! Reach out via the methods below or send me a message directly.</p>
+
+            <div class="contact-info">
+                <div>
+                    <span style="font-size:24px;">📞</span>
+                    <a href="tel:09511692822">096738437</9a>
+                </div>
+                <div>
+                    <span style="font-size:24px;">✉️</span>
+                    <a href="mailto:jericoparocha24@gmail.com">jericoparocha24@gmail.com</a>
+                </div>
+                <div>
+                    <span style="font-size:24px;">🌐</span>
+                    <a href="https://facebook.com/" target="_blank">Jerico C. Parocha</a>
+                </div>
+            </div>
+
+            <h3>Send Me a Message</h3>
+            <form action="mailto:jericoparocha24@gmail.com" method="post" enctype="text/plain" class="contact-form">
+                <input type="text" name="Name" placeholder="Your Name" required>
+                <input type="email" name="Email" placeholder="Your Email" required>
+                <textarea name="Message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 Jerico C Parocha. All rights reserved.</p>
+</footer>
+
+<script>
+var lastSection = "home";
+
+document.addEventListener('DOMContentLoaded', function () {
+    var hash = window.location.hash.replace("#", "");
+    if(hash && document.getElementById(hash)){
+        showSection(hash, false);
+    } else {
+        showSection("home", false);
+    }
+});
+
+function showSection(section, pushState = true) {
+    var home = document.getElementById("home");
+    var about = document.getElementById("about");
+    var projects = document.getElementById("projects");
+    var contact = document.getElementById("contact");
+
+    home.style.display = "none";
+    about.style.display = "none";
+    projects.style.display = "none";
+    contact.style.display = "none";
+
+    var active = document.getElementById(section);
+    if(section === "home"){
+        active.style.display = "flex";
+    } else {
+        active.style.display = "block";
+    }
+
+    lastSection = section;
+    setActiveLink(section);
+
+    if(pushState){
+        history.pushState({section: section}, "", "#" + section);
+    }
+}
+
+function setActiveLink(section){
+    var links = document.querySelectorAll(".nav-links a");
+    links.forEach(link => {
+        link.classList.remove("active");
+        if(link.getAttribute("onclick").includes(section)){
+            link.classList.add("active");
+        }
+    });
+}
+
+window.addEventListener("popstate", function(event){
+    if(event.state && event.state.section){
+        showSection(event.state.section, false);
+    } else {
+        showSection("home", false);
+    }
+});
+</script>
+
 </body>
 </html>
