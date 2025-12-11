@@ -4,26 +4,35 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Inasal Order Form</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #fff7f6;
       margin: 0;
       padding: 20px;
+
+      /* Background Image */
+      background: url("background.jpg") no-repeat center center fixed;
+      background-size: cover;
     }
+
     .container {
       max-width: 700px;
       margin: auto;
-      background: white;
+      background: rgba(255,255,255,0.95);
       border-radius: 12px;
       padding: 25px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
+
     h1 {
       text-align: center;
       color: #d9534f;
+      text-shadow: 0 1px 2px white;
     }
+
     label { font-weight: bold; }
+
     input, select, textarea {
       width: 100%;
       padding: 10px;
@@ -31,20 +40,35 @@
       border-radius: 6px;
       border: 1px solid #ccc;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 15px;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
     }
+
     th, td {
       border: 1px solid #eee;
       padding: 8px;
       text-align: left;
+      vertical-align: middle;
     }
+
     th {
       background-color: #f8d7da;
       color: #a94442;
     }
+
+    img.menu-img {
+      width: 60px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
     button {
       background: #d9534f;
       color: white;
@@ -53,26 +77,63 @@
       border-radius: 6px;
       cursor: pointer;
     }
+
     button:hover { background: #c9302c; }
-    #responseMsg { margin-top: 15px; font-weight: bold; }
+
     .header-img {
       display: block;
-      margin: 0 auto 15px auto;
+      margin: 0 auto 15px;
       border-radius: 12px;
       width: 100%;
       max-height: 250px;
       object-fit: cover;
     }
+
+    /* ---------- RECEIPT MODAL ---------- */
+    .receipt-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .receipt-box {
+      background: white;
+      width: 350px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .receipt-box h2 {
+      text-align: center;
+      margin-top: 0;
+      color: #d9534f;
+    }
+
+    .close-btn {
+      background: #444;
+      margin-top: 10px;
+      width: 100%;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <!-- Image at the top -->
-    <img src="Inasal.jpg" alt="Inasal Banner" class="header-img">
-    
+    <img src="Inasal.jpg" class="header-img" alt="Inasal">
+
     <h1>Inasal Order Form</h1>
 
-    <!-- Customer Info -->
     <form id="orderForm">
       <label>Name:</label>
       <input type="text" id="name" required>
@@ -100,31 +161,42 @@
       </select>
 
       <h3>🍗 Menu</h3>
+
       <table>
-        <tr><th>Item</th><th>Price</th><th>Qty</th></tr>
+        <tr><th>Image</th><th>Item</th><th>Price</th><th>Qty</th></tr>
+
         <tr>
+          <td><img src="paa.jpg" class="menu-img" alt="Paa"></td>
           <td>Chicken Inasal (Paa)</td>
           <td>₱120</td>
           <td><input type="number" id="item1" value="0" min="0"></td>
         </tr>
+
         <tr>
+          <td><img src="pecho.jpg" class="menu-img" alt="Pecho"></td>
           <td>Chicken Inasal (Pecho)</td>
           <td>₱140</td>
           <td><input type="number" id="item2" value="0" min="0"></td>
         </tr>
+
         <tr>
+          <td><img src="porkbbq.jpg" class="menu-img" alt="Pork BBQ"></td>
           <td>Pork BBQ</td>
           <td>₱35</td>
           <td><input type="number" id="item3" value="0" min="0"></td>
         </tr>
+
         <tr>
+          <td><img src="rice.jpg" class="menu-img" alt="Garlic Rice"></td>
           <td>Garlic Rice</td>
           <td>₱25</td>
           <td><input type="number" id="item4" value="0" min="0"></td>
         </tr>
+
         <tr>
-          <td>Soft Drinks</td>
-          <td>₱20</td>
+          <td><img src="halohalo.jpg" class="menu-img" alt="Halo-halo"></td>
+          <td>Halo-halo</td>
+          <td>₱130</td>
           <td><input type="number" id="item5" value="0" min="0"></td>
         </tr>
       </table>
@@ -140,32 +212,40 @@
 
       <button type="submit">Submit Order</button>
     </form>
+  </div>
 
-    <p id="responseMsg"></p>
+  <!-- RECEIPT POPUP -->
+  <div class="receipt-overlay" id="receiptOverlay">
+    <div class="receipt-box">
+      <h2>Order Receipt</h2>
+      <div id="receiptContent"></div>
+      <button class="close-btn" onclick="closeReceipt()">Close</button>
+    </div>
   </div>
 
   <script>
-    const scriptURL = "YOUR_SCRIPT_URL_HERE";
-
     const prices = {
-      item1: 120,
-      item2: 140,
+      item1: 239,
+      item2: 259,
       item3: 35,
       item4: 25,
-      item5: 20
+      item5: 100 // Halo-halo
     };
 
     document.querySelectorAll("input[type='number']").forEach(input => {
       input.addEventListener('input', calculateTotal);
     });
+
     document.getElementById('method').addEventListener('change', calculateTotal);
 
     function calculateTotal() {
       let subtotal = 0;
+
       for (let id in prices) {
         const qty = parseInt(document.getElementById(id).value) || 0;
         subtotal += qty * prices[id];
       }
+
       const method = document.getElementById('method').value;
       const deliveryFee = method === "delivery" ? 50 : 0;
       const total = subtotal + deliveryFee;
@@ -175,7 +255,28 @@
       document.getElementById('total').value = "₱" + total.toFixed(2);
     }
 
-    document.getElementById('orderForm').addEventListener('submit', async (e) => {
+    function openReceipt(data) {
+      const receipt = document.getElementById("receiptContent");
+
+      receipt.innerHTML = `
+        <p><b>Name:</b> ${data.name}</p>
+        <p><b>Phone:</b> ${data.phone}</p>
+        <p><b>Method:</b> ${data.method}</p>
+        <p><b>Payment:</b> ${data.payment}</p>
+        <hr>
+        <p><b>Subtotal:</b> ${data.subtotal}</p>
+        <p><b>Delivery Fee:</b> ${data.deliveryFee}</p>
+        <p><b>Total:</b> ${data.total}</p>
+      `;
+
+      document.getElementById("receiptOverlay").style.display = "flex";
+    }
+
+    function closeReceipt() {
+      document.getElementById("receiptOverlay").style.display = "none";
+    }
+
+    document.getElementById('orderForm').addEventListener('submit', (e) => {
       e.preventDefault();
 
       const orderData = {
@@ -190,23 +291,11 @@
         total: document.getElementById('total').value
       };
 
-      try {
-        const res = await fetch(scriptURL, {
-          method: 'POST',
-          body: JSON.stringify(orderData)
-        });
-        const result = await res.json();
-        document.getElementById('responseMsg').style.color = "green";
-        document.getElementById('responseMsg').textContent = "✅ " + result.message;
-        document.getElementById('orderForm').reset();
-        calculateTotal();
-      } catch (err) {
-        document.getElementById('responseMsg').style.color = "red";
-        document.getElementById('responseMsg').textContent = "❌ Failed to send order.";
-      }
+      openReceipt(orderData);
     });
 
     calculateTotal();
   </script>
+
 </body>
 </html>
