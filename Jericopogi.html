@@ -4,35 +4,68 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Burger Steak Recipe</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 40px auto;
-      max-width: 600px;
-      background-color: #fdfdfd;
-      color: #222;
+      max-width: 650px;
+      color: #fff;
       line-height: 1.6;
+
+      /* Background image */
+      background: url("background.jpg") no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
     }
+
+    /* Dark overlay for readability */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.45);
+      z-index: -1;
+    }
+
     img {
       display: block;
       margin: 0 auto 20px;
-      border-radius: 10px;
+      border-radius: 12px;
       width: 350px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
+
     section {
-      background: #fff8f0;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      background: rgba(255,255,255,0.15);
+      border-radius: 15px;
+      padding: 25px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #ffe8c6;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    ul, ol {
+      color: #fff;
+      font-size: 1.1rem;
     }
   </style>
+
 </head>
 <body>
 
-  <h1 style="text-align:center;"> Burger Steak Recipe</h1>
+  <h1>Burger Steak Recipe</h1>
 
   <!-- Add your image here -->
-  <img src="Burger.jpg" alt="Background">
+  <img src="Burger.jpg" alt="Burger Steak">
 
   <section>
     <h2>Ingredients</h2>
